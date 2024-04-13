@@ -47,34 +47,7 @@ def run_script():
             scaled_data_json = scaled_data.to_json(orient='records')  # Serialize DataFrame to JSON
             return jsonify({'output': output, 'scaled_data': scaled_data_json})
         elif script == 'data_visualization':
-            result = execute_full_visualization(filepath)
-            if isinstance(result, list) and result:
-                # Assuming each item in the list is a tuple (plot_name, plot_data)
-                images = []
-                for item in result:
-                    if isinstance(item, tuple) and len(item) == 2:
-                        plot_name, plot_data = item
-                        plot_path = os.path.join(app.config['UPLOAD_FOLDER'], plot_name + '.png')
-                        with open(plot_path, 'wb') as f:
-                            f.write(plot_data.getvalue())
-                        plot_data.close()
-                        images.append(plot_name + '.png')
-                return render_template_string(
-                    '''<!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                        <meta charset="UTF-8">
-                        <title>Visualization Output</title>
-                    </head>
-                    <body>
-                    <h1>Visualization Output</h1>
-                    {% for image in images %}
-                        <img src="{{url_for('static', filename=image)}}" alt="{{image}}">
-                    {% endfor %}
-                    </body>
-                    </html>''', images=images)
-            else:
-                return jsonify({'error': 'No valid visualization data returned'}), 404
+            result, message = execute_full_visualization(filepath)
         elif script == 'data_wrangling':
             processed_data, error = execute_full_wrangling(filepath)
             return jsonify({'data': processed_data})
@@ -103,4 +76,3 @@ def run_script():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
