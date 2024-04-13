@@ -1,0 +1,5 @@
+Data science involves machine learning, data analysis, and visualization.
+Machine learning can be applied to a wide variety of data types.
+Visualization helps in understanding the data better.
+Deep learning is a subset of machine learning.
+Python is widely used for data science and machine learning.

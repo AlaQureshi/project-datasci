@@ -1,0 +1,11 @@
+ID,Age,Salary,Department,Status
+1,25,50000,IT,Permanent
+2,30,54000,HR,Permanent
+3,45,65000,HR,Contract
+4,23,48000,IT,Permanent
+5,36,56000,Marketing,Contract
+6,29,47000,Marketing,Temporary
+7,41,62000,IT,Permanent
+8,28,45000,HR,Temporary
+9,35,60000,Marketing,Contract
+10,31,58000,IT,Permanent
