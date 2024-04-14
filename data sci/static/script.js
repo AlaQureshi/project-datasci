@@ -52,13 +52,12 @@ function uploadFile() {
 }
 
 function runScript(scriptName) {
+    const formData = new FormData();
     const fileInput = document.getElementById('fileInput');
     if (fileInput.files.length === 0) {
         alert('Please upload a file first.');
         return;
     }
-
-    const formData = new FormData();
     formData.append('file', fileInput.files[0]);
     formData.append('script', scriptName);
 
@@ -69,8 +68,19 @@ function runScript(scriptName) {
       .then(data => {
         if (data.error) {
             alert(data.error);
+        } else if (scriptName === 'data_visualization') {
+            // Assume the backend returns the name of the plot
+            requestVisualization(data.plotName);
         } else {
             document.getElementById('output').innerText = JSON.stringify(data, null, 2);
         }
     }).catch(error => console.error('Error:', error));
 }
+
+function requestVisualization(plotName) {
+    const plotUrl = `/get_plot/${plotName}`;
+    const imageElement = document.createElement('img');
+    imageElement.src = plotUrl;
+    document.getElementById('output').appendChild(imageElement);
+}
+

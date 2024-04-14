@@ -1,13 +1,13 @@
 import pandas as pd
 import seaborn as sns
-import matplotlib
-matplotlib.use('Agg')  # Use non-interactive backend
 import matplotlib.pyplot as plt
 import io
+import os
 
-def load_data(file_stream):
+def load_data(filepath):
     try:
-        return pd.read_csv(file_stream), None
+        data = pd.read_csv(filepath)
+        return data, None
     except Exception as e:
         return None, str(e)
 
@@ -15,7 +15,7 @@ def preprocess_data(data):
     if data is None:
         return None, "Data loading failed"
     try:
-        data.ffill(inplace=True)  # Corrected forward fill usage
+        data.ffill(inplace=True)  # Fill missing values
         return data, None
     except Exception as e:
         return None, str(e)
@@ -24,9 +24,10 @@ def generate_plots(data):
     if data is None:
         return None, "No data available for plotting"
     try:
+        
         plots_info = []
         num_cols = data.select_dtypes(include=['number']).columns
-        cat_cols = data.select_dtypes(include=['object']).columns
+        cat_cols = data.select_dtypes(include=['object', 'category']).columns
 
         for col in num_cols:
             plt.figure(figsize=(15, 5))
@@ -45,11 +46,12 @@ def generate_plots(data):
             plt.savefig(plot_buf, format='png')
             plot_buf.seek(0)
             plots_info.append((f'combined_plots_{col}', plot_buf.getvalue()))
-            plt.close()
+            plt.close()            
+            pass  # Existing numeric plotting logic here
 
         for col in cat_cols:
             plt.figure(figsize=(10, 4))
-            sns.countplot(x=col, data=data)
+            sns.countplot(x=col, data=data)  # Correct for categorical data
             plt.title(f'Count plot of {col}')
             plt.xticks(rotation=45)
             plt.tight_layout()
@@ -66,17 +68,26 @@ def generate_plots(data):
     except Exception as e:
         return None, str(e)
 
-def execute_full_visualization(file_stream):
-    data, error = load_data(file_stream)
+
+def execute_full_visualization(filepath):
+    data, error = load_data(filepath)
     if error:
         return None, error
 
-    processed_data, error = preprocess_data(data)
+    data, error = preprocess_data(data)
     if error:
         return None, error
 
-    results, error = generate_plots(processed_data)
-    if error:
-        return None, error
+    plot_name = "visualization_plot"
+    plot_path = save_plot(data, plot_name, output_directory="saved")
+    return plot_path, "Plot generated and saved successfully"
 
-    return results, "Plots generated successfully"
+def save_plot(data, plot_name, output_directory="saved"):
+    os.makedirs(output_directory, exist_ok=True)
+    plt.figure()
+    plt.plot(data)  # Assuming data is properly formatted for plotting
+    plt.title("Example Plot")
+    plot_path = os.path.join(output_directory, f"{plot_name}.png")
+    plt.savefig(plot_path)
+    plt.close()
+    return plot_path

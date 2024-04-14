@@ -37,6 +37,10 @@ def run_script():
     file = request.files['file']
     script = request.form.get('script')
     method = request.form.get('method', 'standard')
+    target_column = request.form.get('target_column')
+    n_components = request.form.get('n_components')
+    model_type = request.form.get('model_type')
+    file_type = request.form.get('file_type')
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
     file.save(filepath)
 
@@ -47,7 +51,9 @@ def run_script():
             scaled_data_json = scaled_data.to_json(orient='records')  # Serialize DataFrame to JSON
             return jsonify({'output': output, 'scaled_data': scaled_data_json})
         elif script == 'data_visualization':
-            result, message = execute_full_visualization(filepath)
+            plot_name, message = execute_full_visualization(filepath)
+            output = message
+            return jsonify({'output': output, 'plotName': plot_name})
         elif script == 'data_wrangling':
             processed_data, error = execute_full_wrangling(filepath)
             return jsonify({'data': processed_data})
