@@ -29,10 +29,10 @@ def generate_statistics(data):
         results['correlation_matrix'] = correlation_matrix.to_json()
 
         # Pairplot for visual inspection of data
-        sns.pairplot(numeric_data)
-        plt.savefig(buf, format='png')
-        buf.seek(0)
-        results['pairplot'] = buf
+        #sns.pairplot(numeric_data)
+        #plt.savefig(buf, format='png')
+        #buf.seek(0)
+        #results['pairplot'] = buf
     
     # Descriptive statistics for categorical columns
     categorical_data = data.select_dtypes(include=['object'])

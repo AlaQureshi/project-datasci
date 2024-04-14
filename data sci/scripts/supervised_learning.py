@@ -9,9 +9,12 @@ from sklearn.metrics import mean_squared_error, accuracy_score
 from sklearn.preprocessing import StandardScaler
 
 
-def load_data(file_stream):
-    """ Load the dataset from a file stream. """
-    return pd.read_csv(file_stream)
+def load_data(filepath):
+    try:
+        data = pd.read_csv(filepath)
+        return data, None
+    except Exception as e:
+        return None, str(e)
 
 def preprocess_data(df, target, continuous=True):
     """ Preprocess data by handling missing values and splitting into features and target. """

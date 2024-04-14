@@ -7,10 +7,13 @@ import io
 
 
 
-def read_data(file_stream):
-    """ Reads data from a file stream and returns a DataFrame. """
-    return pd.read_csv(file_stream)
-
+def load_data(filepath):
+    try:
+        data = pd.read_csv(filepath)
+        return data, None
+    except Exception as e:
+        return None, str(e)
+    
 def perform_pca(data, n_components=2):
     """ Performs PCA on the provided DataFrame. """
     # Standardizing the features
@@ -38,9 +41,9 @@ def plot_pca(principal_df):
     buf.seek(0)
     return buf
 
-def execute_full_pca(file_stream, n_components=2):
+def execute_full_pca(file_path, n_components=2):
     """Execute all PCA steps in sequence."""
-    data = read_data(file_stream)
+    data = load_data(file_path)
     principal_df, pca = perform_pca(data, n_components=n_components)
     pca_plot = plot_pca(principal_df)
     return pca_plot, principal_df

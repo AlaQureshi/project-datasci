@@ -3,14 +3,13 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 
-def load_data(file_stream):
-    """Load data from a file stream."""
+def load_data(filepath):
     try:
-        data = pd.read_csv(file_stream)
-        return data, None  # Successfully loaded data, no error
+        data = pd.read_csv(filepath)
+        return data, None
     except Exception as e:
-        return None, str(e)  # Return None for data and an error message
-
+        return None, str(e)
+    
 def preprocess_data(df):
     """Process data by filling and converting dates."""
     try:
@@ -47,11 +46,14 @@ def encode_and_scale_data(df):
     except Exception as e:
         return None, str(e)  # Return None for data and an error message
 
-def execute_full_wrangling(file_stream):
+def execute_full_wrangling(file_path):
     """Execute all data wrangling steps in sequence."""
-    data, error = load_data(file_stream)
+    data, error = load_data(file_path)
     if error:
         return None, error  # Return early if loading data failed
+    
+    print("Input data:")
+    print(data)
 
     processed_data, error = preprocess_data(data)
     if error:

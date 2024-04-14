@@ -6,9 +6,12 @@ import matplotlib.pyplot as plt
 import io
 
 
-def read_data(file_stream):
-    """ Reads data from a file stream. """
-    return pd.read_csv(file_stream)
+def load_data(filepath):
+    try:
+        data = pd.read_csv(filepath)
+        return data, None
+    except Exception as e:
+        return None, str(e)
 
 def preprocess_data(data):
     """ Encode categorical variables and scale data. """
@@ -45,9 +48,9 @@ def plot_lda(lda_df):
     buf.seek(0)
     return buf
 
-def execute_full_lda(file_stream, target_column, n_components=2):
+def execute_full_lda(file_path, target_column, n_components=2):
     """ Execute all LDA steps in sequence. """
-    data = read_data(file_stream)
+    data = load_data(file_path)
     data, label_encoders = preprocess_data(data)
     lda_df, lda = perform_lda(data, target_column, n_components)
     lda_plot = plot_lda(lda_df)
