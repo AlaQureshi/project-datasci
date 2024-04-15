@@ -1,10 +1,10 @@
-from flask import Flask, request, jsonify, render_template, render_template_string
+from flask import Flask, request, jsonify, render_template, render_template_string, send_from_directory
 import os
 import subprocess
 from scripts.eda import execute_full_eda
 from scripts.descriptive_statistics import execute_full_statistics
 from scripts.data_wrangling import execute_full_wrangling
-from scripts.data_visualization import execute_full_visualization
+from scripts.data_visualization import visualize_data
 from scripts.lda import execute_full_lda  
 from scripts.pca import execute_full_pca
 from scripts.supervised_learning import execute_full_supervised_learning  
@@ -40,6 +40,8 @@ def run_script():
     target_column = request.form.get('target_column')
     n_components = request.form.get('n_components')
     model_type = request.form.get('model_type')
+    x_column = request.form.get('Age')
+    y_column = request.form.get('Salary')
     file_type = request.form.get('file_type')
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
     file.save(filepath)
@@ -51,9 +53,9 @@ def run_script():
             scaled_data_json = scaled_data.to_json(orient='records')  # Serialize DataFrame to JSON
             return jsonify({'output': output, 'scaled_data': scaled_data_json})
         elif script == 'data_visualization':
-            plot_name, message = execute_full_visualization(filepath)
-            output = message
-            return jsonify({'output': output, 'plotName': plot_name})
+            plot_filename = visualize_data(filepath, x_column, y_column)
+            return send_from_directory('saved', plot_filename)
+
         elif script == 'data_wrangling':
             processed_data, error = execute_full_wrangling(filepath)
             return jsonify({'data': processed_data})
