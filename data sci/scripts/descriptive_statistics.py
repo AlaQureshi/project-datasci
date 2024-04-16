@@ -6,11 +6,9 @@ import io
 
 
 def read_data(file_stream):
-    """Read data from a file stream."""
     return pd.read_csv(file_stream)
 
 def generate_statistics(data):
-    """Generate descriptive statistics and visualizations."""
     results = {}
     buf = io.BytesIO()
     
@@ -28,11 +26,6 @@ def generate_statistics(data):
         correlation_matrix = numeric_data.corr()
         results['correlation_matrix'] = correlation_matrix.to_json()
 
-        # Pairplot for visual inspection of data
-        #sns.pairplot(numeric_data)
-        #plt.savefig(buf, format='png')
-        #buf.seek(0)
-        #results['pairplot'] = buf
     
     # Descriptive statistics for categorical columns
     categorical_data = data.select_dtypes(include=['object'])
@@ -47,7 +40,6 @@ def generate_statistics(data):
     return results
 
 def execute_full_statistics(file_stream):
-    """Execute all descriptive statistics generation steps in sequence."""
     data = read_data(file_stream)
     results = generate_statistics(data)
     return results

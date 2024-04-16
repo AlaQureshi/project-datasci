@@ -57,7 +57,6 @@ function runScript(scriptName) {
         if (data.error) {
             alert(data.error);
         } else if (scriptName === 'data_visualization') {
-            // Assume the backend returns the name of the plot
             requestVisualization(data.plotName);
         } else {
             document.getElementById('output').innerText = JSON.stringify(data, null, 2);

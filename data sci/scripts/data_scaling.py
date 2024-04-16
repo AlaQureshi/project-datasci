@@ -45,4 +45,3 @@ def execute_full_scaling(filepath, method='standard'):
         return None, "Error in scaling data"  # Handle errors in scaling
     return scaled_data, None  # Return scaled data and None for error if successful
 
-# Remove any Flask app instance here if present, like `app.run()`.
