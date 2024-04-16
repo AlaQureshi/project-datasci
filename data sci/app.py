@@ -50,7 +50,7 @@ def run_script():
             return jsonify({'output': output, 'scaled_data': scaled_data_json})
         
         elif script == 'data_visualization':
-            output = process_and_plot_data(filepath, x_column, y_column)
+            output = process_and_plot_data(filepath, 'Education Years', 'Income')
 
         elif script == 'descriptive_statistics':
             output = execute_full_statistics(filepath)
