@@ -3,11 +3,19 @@ import os
 import subprocess
 from scripts.eda import execute_full_eda
 from scripts.descriptive_statistics import execute_full_statistics
-from scripts.data_wrangling import execute_full_wrangling
-from scripts.data_visualization import visualize_data
+#from scripts.data_wrangling import execute_full_wrangling
+from scripts.Dwrang import execute_full_wrangling
+
+#from scripts.data_visualization import visualize_data
+
+from scripts.Dvis import process_and_plot_data
+
 from scripts.lda import execute_full_lda  
 from scripts.pca import execute_full_pca
-from scripts.supervised_learning import execute_full_supervised_learning  
+#from scripts.supervised_learning import execute_full_supervised_learning
+
+from scripts.super import execute_full_supervised_learning 
+
 from scripts.unsupervised_learning import execute_full_unsupervised_learning  
 from scripts.data_scaling import execute_full_scaling
 
@@ -37,9 +45,9 @@ def run_script():
     file = request.files['file']
     script = request.form.get('script')
     method = request.form.get('method', 'standard')
-    target_column = request.form.get('target_column')
+    target_column = request.form.get('Income')
     n_components = request.form.get('n_components')
-    model_type = request.form.get('model_type')
+    model_type = request.form.get('knn_regression')
     x_column = request.form.get('Age')
     y_column = request.form.get('Salary')
     file_type = request.form.get('file_type')
@@ -52,13 +60,16 @@ def run_script():
             output = "Data scaling completed successfully."
             scaled_data_json = scaled_data.to_json(orient='records')  # Serialize DataFrame to JSON
             return jsonify({'output': output, 'scaled_data': scaled_data_json})
+        
         elif script == 'data_visualization':
-            plot_filename = visualize_data(filepath, x_column, y_column)
-            return send_from_directory('saved', plot_filename)
+            output = process_and_plot_data(filepath, x_column, y_column)
+            #return send_from_directory('saved', plot_filename)
 
         elif script == 'data_wrangling':
-            processed_data, error = execute_full_wrangling(filepath)
-            return jsonify({'data': processed_data})
+            output = execute_full_wrangling(filepath)
+            #processed_data, error = execute_full_wrangling(filepath)
+            #return jsonify({'data': processed_data})
+        
         elif script == 'descriptive_statistics':
             output = execute_full_statistics(filepath)
         elif script == 'eda':
@@ -69,9 +80,11 @@ def run_script():
         elif script == 'pca':
             pca_plot, principal_df = execute_full_pca(filepath, n_components)
             output = "PCA plot created successfully."
+
         elif script == 'supervised_learning':
-            results = execute_full_supervised_learning(filepath, target_column, model_type)
+            results = execute_full_supervised_learning(filepath, target_column, model_type, is_continuous=True)
             output = f"Model trained successfully with results: {results}"
+
         elif script == 'unsupervised_learning':
             results = execute_full_unsupervised_learning(filepath, file_type)
             output = f"Unsupervised learning applied successfully with results: {results}"

@@ -64,10 +64,10 @@ def encode_and_scale_data(data, manual_num_cols=None, manual_cat_cols=None):
 
     return df_encoded_scaled
 
-def execute_full_wrangling():
+def execute_full_wrangling(file_path):
     """Execute all data wrangling steps in sequence using a hardcoded file path."""
     # Hardcoded file path
-    file_path = r'E:\DOWNLOADS\project-datasci\test values\datawrang (2).csv'
+    #file_path = r'C:\Users\alaqu\OneDrive\Desktop\project-datasci\test values\discrete_data.csv'    
 
     data, error = load_data(file_path)
     if error:
@@ -83,4 +83,4 @@ def execute_full_wrangling():
     print(final_data)
     return final_data, None  # Successfully completed all steps, no error
 
-execute_full_wrangling()
+#execute_full_wrangling()

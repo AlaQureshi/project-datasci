@@ -51,7 +51,7 @@ def process_and_plot_data(filepath, x_column=None, y_column=None):
 
 
 # Example usage
-process_and_plot_data('E:/DOWNLOADS/project-datasci/test values/datavisual.csv', x_column='Age', y_column='Salary')
+#process_and_plot_data(r'C:\Users\alaqu\OneDrive\Desktop\project-datasci\test values\discrete_data.csv', x_column='Age', y_column='Income')
 
 
 
