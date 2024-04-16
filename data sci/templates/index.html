@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Science Bot</title>
+    <title>Data Science Helper Bot</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Data Science Bot</h1>
+    <h1>Data Science Helper Bot</h1>
+    <p><strong>Instructions:</strong>  👋 Hi I am your Data Science Helper. I am capable of completing certain data science functions on your data. Please press choose file and chose your .csv file. After press upload and then you may select a processing option below.  😊</p>
     <form id="dataForm" enctype="multipart/form-data">
         <input type="file" id="fileInput" name="file" accept=".csv">
         <button type="button" onclick="uploadFile()">Upload File</button>
         <div id="buttons">
             <button id="data_scaling_button" type="button">Run Data Scaling</button>
             <button id="data_visualization_button" type="button">Run Data Visualization</button>
-            <button id="data_wrangling_button" type="button">Run Data Wrangling</button>
             <button id="descriptive_statistics_button" type="button">Run Descriptive Statistics</button>
-            <button id="eda_button" type="button">Run Exploratory Data Analysis</button>
-            <button id="lda_button" type="button">Run Linear Discriminant Analysis</button>
-            <button id="pca_button" type="button">Run Principal Component Analysis</button>
             <button id="supervised_learning_button" type="button">Run Supervised Learning</button>
             <button id="unsupervised_learning_button" type="button">Run Unsupervised Learning</button>
         </div>

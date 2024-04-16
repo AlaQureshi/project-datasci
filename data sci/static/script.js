@@ -5,20 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('data_visualization_button').addEventListener('click', function() {
         runScript('data_visualization');
     });
-    document.getElementById('data_wrangling_button').addEventListener('click', function() {
-        runScript('data_wrangling');
-    });
     document.getElementById('descriptive_statistics_button').addEventListener('click', function() {
         runScript('descriptive_statistics');
-    });
-    document.getElementById('eda_button').addEventListener('click', function() {
-        runScript('eda');
-    });
-    document.getElementById('lda_button').addEventListener('click', function() {
-        runScript('lda');
-    });
-    document.getElementById('pca_button').addEventListener('click', function() {
-        runScript('pca');
     });
     document.getElementById('supervised_learning_button').addEventListener('click', function() {
         runScript('supervised_learning');

@@ -6,13 +6,11 @@ from sklearn.feature_extraction.text import CountVectorizer
 import io
 
 
-def load_data(file_stream, file_type):
+def load_data(file_stream):
     """Load data from a file depending on the file type."""
-    if file_type == 'csv':
-        return pd.read_csv(file_stream)
-    else:
-        data = file_stream.read().decode('utf-8').splitlines()
-        return data
+    
+    return pd.read_csv(file_stream)
+    
 
 def preprocess_data(data, file_type):
     """Preprocess data based on its type."""
@@ -28,9 +26,9 @@ def preprocess_data(data, file_type):
 def apply_unsupervised_learning(data, file_type):
     """Apply an unsupervised learning technique based on the type of data."""
     if file_type == 'csv':
-        kmeans = KMeans(n_clusters=3)  # Assume 3 clusters for simplicity
+        kmeans = KMeans(n_clusters=5)  # Assume 3 clusters for simplicity
         labels = kmeans.fit_predict(data)
-        return {'cluster_labels': labels.tolist()}
+        return {'cluster labels': labels.tolist()}
     else:
         lda = LatentDirichletAllocation(n_components=5)  # Assume 5 topics
         topic_distribution = lda.fit_transform(data)
@@ -38,7 +36,7 @@ def apply_unsupervised_learning(data, file_type):
 
 def execute_full_unsupervised_learning(file_stream, file_type):
     """ Execute all unsupervised learning steps in sequence. """
-    data = load_data(file_stream, file_type)
+    data = load_data(file_stream)
     processed_data = preprocess_data(data, file_type)
     results = apply_unsupervised_learning(processed_data, file_type)
     return results

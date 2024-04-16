@@ -37,7 +37,7 @@ def plot_categorical_data(data):
         plt.show()
 
 # Main function to process and plot data
-def process_and_plot_data(filepath, x_column=None, y_column=None):
+def process_and_plot_data(filepath, x_column, y_column):
     data = load_data(filepath)
     
     if x_column and y_column:
